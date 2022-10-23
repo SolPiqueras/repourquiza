@@ -1257,38 +1257,3 @@ insert into projects (id, area, author, created, description, project, title, ye
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.base/java.lang.Thread.run(Thread.java:831)
-2022-10-23 20:55:47 database: close
-org.h2.message.DbException: IO Exception: "Closing"
-IO Exception: "Closing" [90028-214]
-	at org.h2.message.DbException.get(DbException.java:212)
-	at org.h2.mvstore.db.Store.close(Store.java:402)
-	at org.h2.engine.Database.closeOpenFilesAndUnlock(Database.java:1261)
-	at org.h2.engine.Database.closeImpl(Database.java:1225)
-	at org.h2.engine.Database.close(Database.java:1144)
-	at org.h2.engine.OnExitDatabaseCloser.onShutdown(OnExitDatabaseCloser.java:85)
-	at org.h2.engine.OnExitDatabaseCloser.run(OnExitDatabaseCloser.java:114)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: IO Exception: "Closing"
-IO Exception: "Closing" [90028-214]
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:554)
-	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
-	... 7 more
-Caused by: org.h2.mvstore.MVStoreException: File corrupted in chunk 15, expected page length 4..32, got 0 [2.1.214/6]
-	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
-	at org.h2.mvstore.Page.read(Page.java:585)
-	at org.h2.mvstore.Page.read(Page.java:262)
-	at org.h2.mvstore.MVStore.readPage(MVStore.java:2570)
-	at org.h2.mvstore.MVMap.readPage(MVMap.java:633)
-	at org.h2.mvstore.MVMap.rewritePage(MVMap.java:683)
-	at org.h2.mvstore.MVStore.rewriteChunks(MVStore.java:2523)
-	at org.h2.mvstore.MVStore.compactRewrite(MVStore.java:2501)
-	at org.h2.mvstore.MVStore.rewriteChunks(MVStore.java:2340)
-	at org.h2.mvstore.MVStore.compact(MVStore.java:2318)
-	at org.h2.mvstore.MVStore.compactFile(MVStore.java:2280)
-	at org.h2.mvstore.MVStore.closeStore(MVStore.java:1329)
-	at org.h2.mvstore.MVStore.close(MVStore.java:1291)
-	at org.h2.mvstore.db.Store.close(Store.java:386)
-	... 5 more
-2022-10-23 20:56:41 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLDataException: Valor demasiado largo para la columna "PROJECT CHARACTER VARYING(255)": "U&'PK\\0003\\0004\\0014\\0000\\0000\\0000\\0000\\0000\\fffd\\fffd9U\\0000\\0000\\0000\\0000\\00... (270628)"
-Value too long for column "PROJECT CHARACTER VARYING(255)": "U&'PK\\0003\\0004\\0014\\0000\\0000\\0000\\0000\\0000\\fffd\\fffd9U\\0000\\0000\\0000\\0000\\00... (270628)"; SQL statement:
-insert into projects (id, area, author, created, description, project, title, year) values (default, ?, ?, ?, ?, ?, ?, ?) [22001-214]
