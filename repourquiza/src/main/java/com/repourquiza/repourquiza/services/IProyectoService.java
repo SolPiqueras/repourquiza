@@ -11,5 +11,4 @@ public interface IProyectoService {
 	public Project findById(int idProject);
 	public Project save(Project project);
 	public void deleteById(int idProject);
-	public Project convertToProject(MultipartFile project, String author, String title, String area, String year, String description);
-}
+	}

@@ -1,6 +1,7 @@
 package com.repourquiza.repourquiza.controllers;
 
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,8 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.repourquiza.repourquiza.entities.Project;
 import com.repourquiza.repourquiza.services.IProyectoService;
 
+
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @RequestMapping("/repoUrquiza")
 public class ProyectoController {
 
@@ -30,7 +33,7 @@ public class ProyectoController {
 	private IProyectoService service;
 	
 
-	@GetMapping("/proyectos")
+	@GetMapping("/projects")
 	public List<Project> getProyectos() {
 		return service.findAll();
 	}
@@ -56,15 +59,13 @@ public class ProyectoController {
 		return new ResponseEntity<Project>(project, HttpStatus.OK);
 	}
 
-	@PostMapping("/proyectos")
-	public ResponseEntity<?> saveProyecto(@RequestParam("project") MultipartFile project, 
-			@RequestParam("author") String author,
-			@RequestParam("title") String title, @RequestParam("area") String area, 
-			@RequestParam("year") String year, @RequestParam("description") String description) {
+	@PostMapping("/project")
+	public ResponseEntity<?> saveProyecto(@RequestBody Project body) {
 		Project newProject = null;
 		Map<String, Object> response = new HashMap<>();
 		try {
-			newProject = service.save(service.convertToProject(project, author, title, area, year, description));
+			body.setCreated(LocalDate.now());
+			newProject = service.save(body);
 		}catch(Exception e) {			
 			response.put("Mensaje", "Error al guardar el proyecto.");
 			System.out.println(e.getMessage());
@@ -75,7 +76,7 @@ public class ProyectoController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/proyectos/{id}")
+	@DeleteMapping("/projects/{id}")
 	public ResponseEntity<?> deleteProyecto(@PathVariable int id){
 		Map<String, Object> response = new HashMap<>();
 		try {
